@@ -1,21 +1,22 @@
 const express = require('express');
-// const adoptersRouter = require('./adopters/adopters-router');
-// const dogsRouter = require('./dogs/dogs-router.js');
+const Users = require('./users/model')
 const server = express();
 
-server.use(express.json()); // teaches express to read req.body as JSON
+server.use(express.json()); 
 
-// server.use('/api/adopters', adoptersRouter);
-// server.use('/api/dogs', dogsRouter);
 
-// OTHER ENDPOINTS
-// OTHER ENDPOINTS
-// OTHER ENDPOINTS
-server.get('/', (req, res) => {
-  res.send(`
-    <h2>Big Check</h>
-  `);
+server.get('/api/users', (req, res) => {
+  Users.find(req.query)
+  .then(user =>{
+      res.status(200).json(user)
+  })
 });
+
+server.get('*', (req, res) => {
+    res.status(404).json({
+        message: "not found"
+    })
+})
 
 module.exports = server;
 
